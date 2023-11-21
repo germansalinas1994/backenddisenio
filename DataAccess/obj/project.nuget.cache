@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eBVMiAeFLZHn5qaU1LD22ietEyQ2q6AngMWmZiY47zVuJZo1fxfiS4ZtvW2yMVGimGpmxeUA6A7rrPLk1J1XVA==",
+  "dgSpecHash": "Z567xYfCZhyOtRiQQYU7pmF5F/tlNsjh792iwLCzfBDVvvXmxZBVqKKmbe7Ll4JyEoq6mScTEQmGci4xq6W1AA==",
   "success": true,
-  "projectFilePath": "/Users/germansalinas/Desktop/BackendDisenio/DataAccess/DataAccess.csproj",
+  "projectFilePath": "/Users/germansalinas/Desktop/backendDise/backenddisenio/DataAccess/DataAccess.csproj",
   "expectedPackageFiles": [
     "/Users/germansalinas/.nuget/packages/google.protobuf/3.21.9/google.protobuf.3.21.9.nupkg.sha512",
     "/Users/germansalinas/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

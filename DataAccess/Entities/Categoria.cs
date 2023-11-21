@@ -16,4 +16,5 @@ public partial class Categoria
     public DateTime FechaModificacion { get; set; }
 
     public string? Nombre { get; set; }
+
 }

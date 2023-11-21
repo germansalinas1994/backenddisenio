@@ -15,7 +15,6 @@ namespace DataAccess.Repository
         {
         }
 
-       
 
         public async Task<Categoria?> GetByIdCategoria(int id)
         {

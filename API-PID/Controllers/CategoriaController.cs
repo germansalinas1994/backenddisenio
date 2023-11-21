@@ -25,6 +25,7 @@ namespace API_PID.Controllers
         }
         // GET: api/values
 
+
         [HttpGet]
         [Route("/categoria/{id}")]
         public async Task<ApiResponse> GetCategoriaById(int id)

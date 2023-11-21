@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/germansalinas/Desktop/BackendDisenio/DataAccess/DataAccess.csproj": {}
+    "/Users/germansalinas/Desktop/backendDise/backenddisenio/DataAccess/DataAccess.csproj": {}
   },
   "projects": {
-    "/Users/germansalinas/Desktop/BackendDisenio/DataAccess/DataAccess.csproj": {
+    "/Users/germansalinas/Desktop/backendDise/backenddisenio/DataAccess/DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/germansalinas/Desktop/BackendDisenio/DataAccess/DataAccess.csproj",
+        "projectUniqueName": "/Users/germansalinas/Desktop/backendDise/backenddisenio/DataAccess/DataAccess.csproj",
         "projectName": "DataAccess",
-        "projectPath": "/Users/germansalinas/Desktop/BackendDisenio/DataAccess/DataAccess.csproj",
+        "projectPath": "/Users/germansalinas/Desktop/backendDise/backenddisenio/DataAccess/DataAccess.csproj",
         "packagesPath": "/Users/germansalinas/.nuget/packages/",
-        "outputPath": "/Users/germansalinas/Desktop/BackendDisenio/DataAccess/obj/",
+        "outputPath": "/Users/germansalinas/Desktop/backendDise/backenddisenio/DataAccess/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/germansalinas/.nuget/NuGet/NuGet.Config"

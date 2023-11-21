@@ -12,6 +12,7 @@ namespace DataAccess.IRepository
     {
         IGenericRepository<T> GenericRepository<T>() where T : class;
         ICategoriaRepository CategoriaRepository { get; }
+
         //el beginTransactionAsync es para que se inicie la transaccion
         Task BeginTransactionAsync();
 
