@@ -9,9 +9,11 @@ public partial class Pid
 
     public string? Denominacion { get; set; }
 
-    public DateTime? FechaDesde { get; set; }
+    public DateTime FechaDesde { get; set; }
 
-    public DateTime? FechaHasta { get; set; }
+    public DateTime FechaHasta { get; set; }
+
+    public DateTime FechaActualizacion { get; set; }
 
     public int? IdUniversidad { get; set; }
 
