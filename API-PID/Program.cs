@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 // ADD Entity framework con mysql
 
-builder.Services.AddDbContext<DbveterinariaContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("dbConnection")));
+builder.Services.AddDbContext<GestioninvestigacionContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("dbConnection")));
 
 //agrego la inyeccion de dependencia de los repositorios y el UnitOfWork
 
@@ -31,7 +31,7 @@ builder.Services.AddDbContext<DbveterinariaContext>(options => options.UseMySQL(
 //La diferencia entre AddScoped y AddTransient es que el AddScoped crea un contexto por cada request y el AddTransient crea un contexto por cada vez que se lo llama
 //El AddSingleton es para que se cree un contexto por una unica vez y se reutilice en todos los request
 
-builder.Services.AddScoped<ServiceCategoria>();
+builder.Services.AddScoped<ServicePID>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -52,12 +52,12 @@ var app = builder.Build();
 
 
 
-using(var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<DbveterinariaContext>();
+        var context = services.GetRequiredService<GestioninvestigacionContext>();
         context.Database.EnsureCreated();
     }
     catch (Exception ex)
@@ -69,7 +69,7 @@ using(var scope = app.Services.CreateScope())
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) 
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

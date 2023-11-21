@@ -13,25 +13,25 @@ namespace DataAccess.Repository
     public class UnitOfWork : IUnitOfWork
     {
 
-        protected readonly DbveterinariaContext _context;
+        protected readonly GestioninvestigacionContext _context;
         private IDbContextTransaction _transaction;
 
 
 
         //tengo que crear _transaction
 
-        public UnitOfWork(DbveterinariaContext context)
+        public UnitOfWork(GestioninvestigacionContext context)
         {
             _context = context;
 
-            CategoriaRepository = new CategoriaRepository(_context);
 
-            
+
+
         }
 
-        public ICategoriaRepository CategoriaRepository { get; set; }
 
-        
+
+
         public IGenericRepository<T> GenericRepository<T>() where T : class
         {
             return new GenericRepository<T>(_context);

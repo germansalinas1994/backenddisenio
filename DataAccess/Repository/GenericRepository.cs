@@ -16,8 +16,8 @@ namespace DataAccess.Repository
         //Por lo tanto no es necesario hacer un using para el contexto ya que se va a cerrar automaticamente al finalizar el request
 
         //Instancio el contexto que vamos a usar, para esto tengo que agregarlo en el startup
-        protected readonly DbveterinariaContext _context;
-        public GenericRepository(DbveterinariaContext mydbContext)
+        protected readonly GestioninvestigacionContext _context;
+        public GenericRepository(GestioninvestigacionContext mydbContext)
         {
             _context = mydbContext;
         }

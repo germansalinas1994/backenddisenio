@@ -12,14 +12,14 @@ using AutoWrapper.Wrappers;
 namespace API_PID.Controllers
 {
     [Route("api/[controller]")]
-    public class CategoriaController : Controller
+    public class PIDController : Controller
     {
 
         //Instancio el service que vamos a usar
-        private ServiceCategoria _service;
+        private ServicePID _service;
 
         //Inyecto el service por el constructor
-        public CategoriaController(ServiceCategoria service)
+        public PIDController(ServicePID service)
         {
             _service = service;
         }
@@ -27,18 +27,13 @@ namespace API_PID.Controllers
 
 
         [HttpGet]
-        [Route("/categoria/{id}")]
-        public async Task<ApiResponse> GetCategoriaById(int id)
+        [Route("/pid")]
+        public async Task<ApiResponse> GetPID()
         {
-            if (id == 0)
-            {
-                throw new ApiException("Debe ingresar un id de categoria valido");
-            }
 
             try
             {
-                CategoriaDTO categoria = await _service.GetCategoriaById(id);
-                ApiResponse response = new ApiResponse(new { data = categoria });
+                ApiResponse response = new ApiResponse();
                 return response;
             }
             catch (Exception ex)
@@ -54,7 +49,7 @@ namespace API_PID.Controllers
         }
 
 
-       
+
 
     }
 }
