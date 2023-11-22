@@ -5,7 +5,7 @@ namespace BussinessLogic.DTO
 {
     public class PIDDTO
     {
-        public int IdPid { get; set; }
+        public int? IdPid { get; set; }
 
         public string? Denominacion { get; set; }
 
@@ -17,6 +17,9 @@ namespace BussinessLogic.DTO
 
         public int? IdTipoPid { get; set; }
 
+        public string? Director { get; set; }
+
+        public int? IdUCT { get; set; }
 
 
     }

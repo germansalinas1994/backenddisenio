@@ -48,6 +48,17 @@ namespace API_PID.Controllers
 
         }
 
+        [HttpPost]
+        [Route("/pid")]
+        public async Task<ApiResponse> CrearPID([FromBody] PIDDTO pid)
+        {
+            await _service.CargarPID(pid);
+            ApiResponse response = new ApiResponse();
+            return response;
+
+        }
+
+
 
 
 

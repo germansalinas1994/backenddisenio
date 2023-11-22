@@ -20,6 +20,25 @@ namespace BussinessLogic.Services
         }
 
 
+        public async Task<int> CargarPID(PIDDTO pid)
+        {
+
+            Pid nuevoPid = new Pid();
+            nuevoPid.Denominacion = pid.Denominacion;
+            nuevoPid.Director = pid.Director;
+            nuevoPid.IdUniversidad = pid.IdUniversidad;
+            nuevoPid.IdTipoPid = pid.IdTipoPid;
+            nuevoPid.FechaDesde = pid.FechaDesde.Value;
+            nuevoPid.FechaHasta = pid.FechaHasta.Value;
+            Pid pidCargado = await _unitOfWork.GenericRepository<Pid>().Insert(nuevoPid);
+            return 0;
+
+        }
+
 
     }
+
+
+
+
 }
