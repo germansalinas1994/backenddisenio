@@ -26,27 +26,7 @@ namespace API_PID.Controllers
         // GET: api/values
 
 
-        [HttpGet]
-        [Route("/pid")]
-        public async Task<ApiResponse> GetPID()
-        {
 
-            try
-            {
-                ApiResponse response = new ApiResponse();
-                return response;
-            }
-            catch (Exception ex)
-            {
-                while (ex.InnerException != null)
-                {
-                    ex = ex.InnerException;
-                }
-                throw new ApiException(ex);
-            }
-
-
-        }
 
         [HttpPost]
         [Route("/pid")]
@@ -67,8 +47,24 @@ namespace API_PID.Controllers
             return response;
         }
 
+        [HttpPut]
+        [Route("/pid")]
+        public async Task<ApiResponse> EditarPID([FromBody] PIDDTO pid)
+        {
+            await _service.EditarPID(pid);
+            ApiResponse response = new ApiResponse("El PID se modificó exitosamente");
+            return response;
+        }
 
+        [HttpGet]
+        [Route("/pid")]
 
+        public async Task<ApiResponse> ListarPID()
+        {
+            IList<PIDDTO> pids = await _service.GetAllPID();
+            ApiResponse response = new ApiResponse(new { data = pids });
+            return response;
+        }
 
 
 

@@ -54,10 +54,44 @@ namespace BussinessLogic.Services
 
             }
 
-
-
             return 0;
 
+        }
+
+        public async Task<int> EditarPID(PIDDTO pid)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+
+                Pid pidbase = await _unitOfWork.GenericRepository<Pid>().GetById(pid.IdPid.Value);
+
+                if (pidbase != null)
+                {
+                    pidbase.Denominacion = pid.Denominacion;
+                    pidbase.Director = pid.Director;
+                    pidbase.IdUniversidad = pid.IdUniversidad;
+                    pidbase.IdTipoPid = pid.IdTipoPid;
+                    pidbase.FechaDesde = pid.FechaDesde.Value;
+                    pidbase.FechaHasta = pid.FechaHasta.Value;
+                    pidbase.FechaActualizacion = DateTime.Now;
+
+                    Pid pidCargado = await _unitOfWork.GenericRepository<Pid>().Update(pidbase);
+
+                }
+
+                await _unitOfWork.CommitAsync();
+
+            }
+
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackAsync();
+                throw ex;
+
+            }
+
+            return 0;
         }
 
         public async Task<bool> EliminarPID(int id)
@@ -70,9 +104,16 @@ namespace BussinessLogic.Services
                 pid.FechaActualizacion = DateTime.Now;
                 Pid pidActualizado = await _unitOfWork.GenericRepository<Pid>().Update(pid);
             }
-
-
             return true;
+        }
+
+        public async Task<IList<PIDDTO>> GetAllPID()
+        {
+
+            IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetByCriteria(x => x.FechaBaja == null)).OrderByDescending(x => x.FechaAlta).ToList();
+            IList<PIDDTO> pidDTO = pids.Adapt<IList<PIDDTO>>();
+
+            return pidDTO;
 
         }
     }
