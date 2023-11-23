@@ -53,10 +53,22 @@ namespace API_PID.Controllers
         public async Task<ApiResponse> CrearPID([FromBody] PIDDTO pid)
         {
             await _service.CargarPID(pid);
-            ApiResponse response = new ApiResponse();
+            ApiResponse response = new ApiResponse("El PID se cargó exitosamente");
             return response;
-
         }
+
+        [HttpPut]
+        [Route("/pid/{id}")]
+
+        public async Task<ApiResponse> EliminarPID(int id)
+        {
+            await _service.EliminarPID(id);
+            ApiResponse response = new ApiResponse("El PID se eliminó exitosamente");
+            return response;
+        }
+
+
+
 
 
 

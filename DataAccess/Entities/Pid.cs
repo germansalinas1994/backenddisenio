@@ -15,6 +15,10 @@ public partial class Pid
 
     public DateTime FechaActualizacion { get; set; }
 
+    public DateTime FechaAlta { get; set; }
+
+    public DateTime? FechaBaja { get; set; }
+
     public int? IdUniversidad { get; set; }
 
     public int? IdTipoPid { get; set; }

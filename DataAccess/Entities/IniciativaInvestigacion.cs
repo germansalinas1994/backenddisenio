@@ -19,6 +19,12 @@ public partial class IniciativaInvestigacion
 
     public DateTime? FechaHasta { get; set; }
 
+    public DateTime FechaActualizacion { get; set; }
+
+    public DateTime FechaAlta { get; set; }
+
+    public DateTime? FechaBaja { get; set; }
+
     public string? Programa { get; set; }
 
     public virtual Tipopid? IdTipoP { get; set; }

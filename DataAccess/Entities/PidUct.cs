@@ -14,4 +14,10 @@ public partial class PidUct
     public virtual Pid? IdP { get; set; }
 
     public virtual Uct? IdUctNavigation { get; set; }
+
+    public DateTime FechaActualizacion { get; set; }
+
+    public DateTime FechaAlta { get; set; }
+
+    public DateTime? FechaBaja { get; set; }
 }
