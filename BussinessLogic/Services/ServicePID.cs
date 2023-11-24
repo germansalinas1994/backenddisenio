@@ -37,12 +37,15 @@ namespace BussinessLogic.Services
                 nuevoPid.FechaActualizacion = DateTime.Now;
 
                 Pid pidCargado = await _unitOfWork.GenericRepository<Pid>().Insert(nuevoPid);
+
                 PidUct nuevoPidUct = new PidUct();
                 nuevoPidUct.IdPid = pidCargado.IdPid;
                 nuevoPidUct.IdUct = pid.IdUCT;
                 nuevoPidUct.FechaAlta = DateTime.Now;
                 nuevoPidUct.FechaActualizacion = DateTime.Now;
+
                 PidUct pidUctCargado = await _unitOfWork.GenericRepository<PidUct>().Insert(nuevoPidUct);
+                
                 await _unitOfWork.CommitAsync();
 
             }
@@ -115,7 +118,7 @@ namespace BussinessLogic.Services
         public async Task<IList<PIDDTO>> GetAllPID()
         {
 
-            IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetByCriteria(x => x.FechaBaja == null)).OrderByDescending(x => x.FechaAlta).ToList();
+            IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaDesde).ToList();
             IList<PIDDTO> pidDTO = pids.Adapt<IList<PIDDTO>>();
 
             return pidDTO;
