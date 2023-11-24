@@ -54,7 +54,25 @@ namespace BussinessLogic.Services
 
             }
 
+
+
             return 0;
+
+        }
+
+        public async Task<bool> EliminarPID(int id)
+        { 
+            Pid pid = await _unitOfWork.GenericRepository<Pid>().GetById(id);
+
+            if (pid != null)
+            {
+                pid.FechaBaja = DateTime.Now;
+                pid.FechaActualizacion = DateTime.Now;
+                Pid pidActualizado = await _unitOfWork.GenericRepository<Pid>().Update(pid);
+            }
+
+
+            return true;
 
         }
 
@@ -94,19 +112,6 @@ namespace BussinessLogic.Services
             return 0;
         }
 
-        public async Task<bool> EliminarPID(int id)
-        {
-            Pid pid = await _unitOfWork.GenericRepository<Pid>().GetById(id);
-
-            if (pid != null)
-            {
-                pid.FechaBaja = DateTime.Now;
-                pid.FechaActualizacion = DateTime.Now;
-                Pid pidActualizado = await _unitOfWork.GenericRepository<Pid>().Update(pid);
-            }
-            return true;
-        }
-
         public async Task<IList<PIDDTO>> GetAllPID()
         {
 
@@ -115,6 +120,18 @@ namespace BussinessLogic.Services
 
             return pidDTO;
 
+        }
+
+        public async Task<PIDDTO> GetById(int id)
+        {
+            Pid pid = await _unitOfWork.GenericRepository<Pid>().GetById(id);
+            int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
+            Uct uct = await _unitOfWork.GenericRepository<Uct>().GetById(idUct);
+            UCTDTO uctDTO = uct.Adapt<UCTDTO>();
+            PIDDTO pidDTO = pid.Adapt<PIDDTO>();
+            pidDTO.Uct = uctDTO;
+
+            return pidDTO;
         }
     }
 

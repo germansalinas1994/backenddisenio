@@ -66,6 +66,15 @@ namespace API_PID.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("/pid/{id}")]
+
+        public async Task<ApiResponse> GetPID(int id)
+        {
+            PIDDTO pid = await _service.GetById(id);
+            ApiResponse response = new ApiResponse(new { data = pid });
+            return response;
+        }
 
 
 

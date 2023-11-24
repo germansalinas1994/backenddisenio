@@ -21,6 +21,8 @@ namespace BussinessLogic.DTO
 
         public int? IdUCT { get; set; }
 
+        public UCTDTO Uct { get; set; }
+
 
     }
 }
