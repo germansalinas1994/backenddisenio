@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using DataAccess.Seeders;
 
 namespace DataAccess.Entities;
 
@@ -35,6 +36,8 @@ public partial class GestioninvestigacionContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Seed();
+
         modelBuilder.Entity<IniciativaInvestigacion>(entity =>
         {
             entity.HasKey(e => e.IdIniciativaInvestigacion).HasName("PRIMARY");
@@ -47,10 +50,10 @@ public partial class GestioninvestigacionContext : DbContext
 
             entity.Property(e => e.IdIniciativaInvestigacion).HasColumnName("idIniciativa_Investigacion");
             entity.Property(e => e.Denominacion)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("denominacion");
             entity.Property(e => e.Director)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("director");
             entity.Property(e => e.FechaDesde)
                 .HasColumnType("datetime")
@@ -61,7 +64,7 @@ public partial class GestioninvestigacionContext : DbContext
             entity.Property(e => e.IdTipoPid).HasColumnName("id_tipoPID");
             entity.Property(e => e.IdUniversidad).HasColumnName("id_universidad");
             entity.Property(e => e.Programa)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("programa");
 
             entity.HasOne(d => d.IdTipoP).WithMany(p => p.IniciativaInvestigacion)
@@ -85,10 +88,10 @@ public partial class GestioninvestigacionContext : DbContext
 
             entity.Property(e => e.IdPid).HasColumnName("idPID");
             entity.Property(e => e.Denominacion)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("denominacion");
             entity.Property(e => e.Director)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("director");
             entity.Property(e => e.FechaDesde)
                 .HasColumnType("datetime")
@@ -139,10 +142,10 @@ public partial class GestioninvestigacionContext : DbContext
 
             entity.Property(e => e.IdTipoPid).HasColumnName("idTipoPID");
             entity.Property(e => e.Codigo)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("codigo");
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("descripcion");
         });
 
@@ -154,16 +157,16 @@ public partial class GestioninvestigacionContext : DbContext
 
             entity.Property(e => e.IdUct).HasColumnName("idUCT");
             entity.Property(e => e.Codigo)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("codigo");
             entity.Property(e => e.Denominacion)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("denominacion");
             entity.Property(e => e.Localidad)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("localidad");
             entity.Property(e => e.Regional)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("regional");
             entity.Property(e => e.Tipo).HasColumnName("tipo");
         });
@@ -199,10 +202,10 @@ public partial class GestioninvestigacionContext : DbContext
 
             entity.Property(e => e.IdUniversidad).HasColumnName("idUniversidad");
             entity.Property(e => e.Direccion)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("direccion");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(45)
+                .HasMaxLength(300)
                 .HasColumnName("nombre");
         });
 
