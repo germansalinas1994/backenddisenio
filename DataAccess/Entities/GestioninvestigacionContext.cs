@@ -102,11 +102,11 @@ public partial class GestioninvestigacionContext : DbContext
             entity.Property(e => e.IdTipoPid).HasColumnName("id_tipoPID");
             entity.Property(e => e.IdUniversidad).HasColumnName("id_universidad");
 
-            entity.HasOne(d => d.IdTipoP).WithMany(p => p.Pid)
+            entity.HasOne(d => d.TipoPid).WithMany(p => p.Pid)
                 .HasForeignKey(d => d.IdTipoPid)
                 .HasConstraintName("id_tipoPID_FK_P");
 
-            entity.HasOne(d => d.IdUniversidadNavigation).WithMany(p => p.Pid)
+            entity.HasOne(d => d.Universidad).WithMany(p => p.Pid)
                 .HasForeignKey(d => d.IdUniversidad)
                 .HasConstraintName("id_universidad_FK_P");
         });
