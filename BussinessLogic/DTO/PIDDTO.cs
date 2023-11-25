@@ -23,6 +23,10 @@ namespace BussinessLogic.DTO
 
         public UCTDTO Uct { get; set; }
 
+        public UniversidadDTO Universidad { get; set; }
+
+        public TipoPidDTO TipoPid { get; set; }
+
 
     }
 }

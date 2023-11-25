@@ -30,7 +30,7 @@ namespace API_PID.Controllers
 
         [HttpPost]
         [Route("/pid")]
-        public async Task<ApiResponse> CrearPID([FromBody] PIDDTO pid)
+        public async Task<ApiResponse> CrearPID([FromBody] RequestPIDDTO pid)
         {
             await _service.CargarPID(pid);
             ApiResponse response = new ApiResponse("El PID se cargó exitosamente");
@@ -75,6 +75,37 @@ namespace API_PID.Controllers
             return response;
         }
 
+
+        [HttpGet]
+        [Route("/uct")]
+
+        public async Task<ApiResponse> GetUcts()
+        {
+            IList<UCTDTO> ucts = await _service.GetAllUcts();
+            ApiResponse response = new ApiResponse(new { data = ucts });
+            return response;
+        }
+
+        [HttpGet]
+        [Route("/tipoPid")]
+
+        public async Task<ApiResponse> GetTipoPids()
+        {
+            IList<TipoPidDTO> tipoPids = await _service.GetAllTipoPids();
+            ApiResponse response = new ApiResponse(new { data = tipoPids });
+            return response;
+        }
+
+
+        [HttpGet]
+        [Route("/universidad")]
+
+        public async Task<ApiResponse> GetUniversidades()
+        {
+            IList<UniversidadDTO> universidades = await _service.GetAllUniversidades();
+            ApiResponse response = new ApiResponse(new { data = universidades });
+            return response;
+        }
 
 
 
