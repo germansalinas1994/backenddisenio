@@ -33,6 +33,7 @@ builder.Services.AddDbContext<GestioninvestigacionContext>(options => options.Us
 
 builder.Services.AddScoped<ServicePID>();
 
+builder.Services.AddScoped<ServiceIniciativa>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
