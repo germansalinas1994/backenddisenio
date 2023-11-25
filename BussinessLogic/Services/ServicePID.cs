@@ -119,9 +119,20 @@ namespace BussinessLogic.Services
         {
 
             IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaDesde).ToList();
-            IList<PIDDTO> pidDTO = pids.Adapt<IList<PIDDTO>>();
+           IList<PIDDTO> pidsDTO = new List<PIDDTO>();
+            foreach (Pid pid in pids)
+            {
+                int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
+                Uct uct = await _unitOfWork.GenericRepository<Uct>().GetById(idUct);
+                UCTDTO uctDTO = uct.Adapt<UCTDTO>();
+                PIDDTO pidDTO = pid.Adapt<PIDDTO>();
+                pidDTO.Uct = uctDTO;
+                pidsDTO.Add(pidDTO);
+            }
 
-            return pidDTO;
+            return pidsDTO;
+
+        
 
         }
 
@@ -135,6 +146,27 @@ namespace BussinessLogic.Services
             pidDTO.Uct = uctDTO;
 
             return pidDTO;
+        }
+
+        public async Task<IList<UCTDTO>> GetAllUcts()
+        {
+            IList<Uct> ucts = await _unitOfWork.GenericRepository<Uct>().GetAll();
+            IList<UCTDTO> uctsDTO = ucts.Adapt<IList<UCTDTO>>();
+            return uctsDTO;
+        }
+
+        public async Task<IList<TipoPidDTO>> GetAllTipoPids()
+        {
+            IList<Tipopid> tipoPids = await _unitOfWork.GenericRepository<Tipopid>().GetAll();
+            IList<TipoPidDTO> tipoPidsDTO = tipoPids.Adapt<IList<TipoPidDTO>>();
+            return tipoPidsDTO;
+        }
+
+        public async Task<IList<UniversidadDTO>> GetAllUniversidades()
+        {
+            IList<Universidad> universidades = await _unitOfWork.GenericRepository<Universidad>().GetAll();
+            IList<UniversidadDTO> universidadesDTO = universidades.Adapt<IList<UniversidadDTO>>();
+            return universidadesDTO;
         }
     }
 
