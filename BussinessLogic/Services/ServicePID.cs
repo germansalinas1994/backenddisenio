@@ -20,19 +20,21 @@ namespace BussinessLogic.Services
         }
 
 
-        public async Task<int> CargarPID(PIDDTO pid)
+        public async Task<int> CargarPID(RequestPIDDTO pid)
         {
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
 
                 Pid nuevoPid = new Pid();
-                nuevoPid.Denominacion = pid.Denominacion;
-                nuevoPid.Director = pid.Director;
-                nuevoPid.IdUniversidad = pid.IdUniversidad;
-                nuevoPid.IdTipoPid = pid.IdTipoPid;
-                nuevoPid.FechaDesde = pid.FechaDesde.Value;
-                nuevoPid.FechaHasta = pid.FechaHasta.Value;
+                nuevoPid.Denominacion = pid.denominacion;
+                nuevoPid.Director = pid.director;
+                nuevoPid.IdUniversidad = pid.universidad;
+                nuevoPid.IdTipoPid = pid.tipoPid;
+
+                nuevoPid.FechaDesde = DateTime.ParseExact(pid.fechaDesde, "dd/MM/yyyy", null);
+                nuevoPid.FechaHasta = DateTime.ParseExact(pid.fechaHasta, "dd/MM/yyyy", null);
+
                 nuevoPid.FechaAlta = DateTime.Now;
                 nuevoPid.FechaActualizacion = DateTime.Now;
 
@@ -40,7 +42,7 @@ namespace BussinessLogic.Services
 
                 PidUct nuevoPidUct = new PidUct();
                 nuevoPidUct.IdPid = pidCargado.IdPid;
-                nuevoPidUct.IdUct = pid.IdUCT;
+                nuevoPidUct.IdUct = pid.uct;
                 nuevoPidUct.FechaAlta = DateTime.Now;
                 nuevoPidUct.FechaActualizacion = DateTime.Now;
 
@@ -118,7 +120,7 @@ namespace BussinessLogic.Services
         public async Task<IList<PIDDTO>> GetAllPID()
         {
 
-            IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaDesde).ToList();
+            IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
            IList<PIDDTO> pidsDTO = new List<PIDDTO>();
             foreach (Pid pid in pids)
             {
