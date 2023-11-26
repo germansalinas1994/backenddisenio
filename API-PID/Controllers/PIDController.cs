@@ -49,7 +49,7 @@ namespace API_PID.Controllers
 
         [HttpPut]
         [Route("/pid")]
-        public async Task<ApiResponse> EditarPID([FromBody] PIDDTO pid)
+        public async Task<ApiResponse> EditarPID([FromBody] RequestPIDDTO pid)
         {
             await _service.EditarPID(pid);
             ApiResponse response = new ApiResponse("El PID se modificó exitosamente");
