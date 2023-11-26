@@ -5,6 +5,7 @@ using DataAccess.IRepository;
 using DataAccess.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace BussinessLogic.Services
 {
@@ -32,6 +33,12 @@ namespace BussinessLogic.Services
                 nuevoPid.IdUniversidad = pid.universidad;
                 nuevoPid.IdTipoPid = pid.tipoPid;
 
+                //logica de las fechas
+
+                pid.fechaDesde = DateTime.Parse(pid.fechaDesde, null, DateTimeStyles.RoundtripKind).ToString("dd/MM/yyyy");
+                pid.fechaHasta = DateTime.Parse(pid.fechaHasta, null, DateTimeStyles.RoundtripKind).ToString("dd/MM/yyyy");
+
+
                 nuevoPid.FechaDesde = DateTime.ParseExact(pid.fechaDesde, "dd/MM/yyyy", null);
                 nuevoPid.FechaHasta = DateTime.ParseExact(pid.fechaHasta, "dd/MM/yyyy", null);
 
@@ -47,7 +54,7 @@ namespace BussinessLogic.Services
                 nuevoPidUct.FechaActualizacion = DateTime.Now;
 
                 PidUct pidUctCargado = await _unitOfWork.GenericRepository<PidUct>().Insert(nuevoPidUct);
-                
+
                 await _unitOfWork.CommitAsync();
 
             }
@@ -81,22 +88,30 @@ namespace BussinessLogic.Services
 
         }
 
-        public async Task<int> EditarPID(PIDDTO pid)
+        public async Task<int> EditarPID(RequestPIDDTO pid)
         {
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                Pid pidbase = await _unitOfWork.GenericRepository<Pid>().GetById(pid.IdPid.Value);
+                Pid pidbase = await _unitOfWork.GenericRepository<Pid>().GetById(pid.idPid);
 
                 if (pidbase != null)
                 {
-                    pidbase.Denominacion = pid.Denominacion;
-                    pidbase.Director = pid.Director;
-                    pidbase.IdUniversidad = pid.IdUniversidad;
-                    pidbase.IdTipoPid = pid.IdTipoPid;
-                    pidbase.FechaDesde = pid.FechaDesde.Value;
-                    pidbase.FechaHasta = pid.FechaHasta.Value;
+                    pidbase.Denominacion = pid.denominacion;
+                    pidbase.Director = pid.director;
+                    pidbase.IdUniversidad = pid.universidad;
+                    pidbase.IdTipoPid = pid.tipoPid;
+
+
+                    pid.fechaDesde = DateTime.Parse(pid.fechaDesde, null, DateTimeStyles.RoundtripKind).ToString("dd/MM/yyyy");
+                    pid.fechaHasta = DateTime.Parse(pid.fechaHasta, null, DateTimeStyles.RoundtripKind).ToString("dd/MM/yyyy");
+
+                    pidbase.FechaDesde = DateTime.ParseExact(pid.fechaDesde, "dd/MM/yyyy", null);
+                    pidbase.FechaHasta = DateTime.ParseExact(pid.fechaHasta, "dd/MM/yyyy", null);
+                    
+                    // pidbase.FechaDesde = pid.FechaDesde.Value;
+                    // pidbase.FechaHasta = pid.FechaHasta.Value;
                     pidbase.FechaActualizacion = DateTime.Now;
 
                     Pid pidCargado = await _unitOfWork.GenericRepository<Pid>().Update(pidbase);
@@ -121,7 +136,7 @@ namespace BussinessLogic.Services
         {
 
             IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
-           IList<PIDDTO> pidsDTO = new List<PIDDTO>();
+            IList<PIDDTO> pidsDTO = new List<PIDDTO>();
             foreach (Pid pid in pids)
             {
                 int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
@@ -134,14 +149,14 @@ namespace BussinessLogic.Services
 
             return pidsDTO;
 
-        
+
 
         }
 
         public async Task<PIDDTO> GetById(int id)
         {
-            Pid pid = await _unitOfWork.GenericRepository<Pid>().GetById(id);
-            int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
+            Pid pid = await _unitOfWork.GenericRepository<Pid>().GetByIdIncludingRelations(id);
+            int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteriaIncludingRelations(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
             Uct uct = await _unitOfWork.GenericRepository<Uct>().GetById(idUct);
             UCTDTO uctDTO = uct.Adapt<UCTDTO>();
             PIDDTO pidDTO = pid.Adapt<PIDDTO>();

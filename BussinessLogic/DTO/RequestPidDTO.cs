@@ -6,6 +6,7 @@ namespace BussinessLogic.DTO
    public class RequestPIDDTO
     {
 
+        public int idPid { get; set; }
         public string? denominacion { get; set; }
 
         public string fechaDesde { get; set; }
