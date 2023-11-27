@@ -236,6 +236,23 @@ namespace BussinessLogic.Services
 
             return pidsDTO;
         }
+
+        public async Task<IList<PIDDTO>> GetUltimosPids()
+        {
+            IList<Pid> pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).Take(3).ToList();
+            IList<PIDDTO> pidsDTO = new List<PIDDTO>();
+            foreach (Pid pid in pids)
+            {
+                int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
+                Uct uct = await _unitOfWork.GenericRepository<Uct>().GetById(idUct);
+                UCTDTO uctDTO = uct.Adapt<UCTDTO>();
+                PIDDTO pidDTO = pid.Adapt<PIDDTO>();
+                pidDTO.Uct = uctDTO;
+                pidsDTO.Add(pidDTO);
+            }
+
+            return pidsDTO;
+        }
     }
 
 
