@@ -70,7 +70,7 @@ namespace API_PID.Controllers
         [Route("/buscarPid")]
         public async Task<ApiResponse> BuscarPIDFilter([FromBody] FilterPID filtro)
         {
-            IList<PIDDTO> pids = await _service.BuscarPIDFilter(filtro.tipoPid,filtro.uct);
+            IList<PIDDTO> pids = await _service.BuscarPIDFilter(filtro.tipoPid, filtro.uct);
             ApiResponse response = new ApiResponse(new { data = pids });
             return response;
         }
@@ -116,6 +116,15 @@ namespace API_PID.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("/ultimosPids")]
+        public async Task<ApiResponse> GetUltimosPids()
+        {
+            IList<PIDDTO> pids = await _service.GetUltimosPids();
+            ApiResponse response = new ApiResponse(new { data = pids });
+            return response;
+        }
+
 
 
     }
@@ -124,5 +133,5 @@ namespace API_PID.Controllers
 public class FilterPID
 {
     public int? tipoPid { get; set; }
-    public int? uct { get; set;}
+    public int? uct { get; set; }
 }
