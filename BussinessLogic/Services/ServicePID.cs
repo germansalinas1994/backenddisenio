@@ -188,27 +188,42 @@ namespace BussinessLogic.Services
 
         public async Task<IList<PIDDTO>> BuscarPIDFilter(int? idTipoPid, int? idUctFiltro)
         {
-
             List<Pid> pids = new List<Pid>();
             IList<PIDDTO> pidsDTO = new List<PIDDTO>();
 
-            if (idTipoPid != null && idTipoPid != 0)
+            //Si vienen ambos filtros, filtro por ambos
+            if (idTipoPid.HasValue && idTipoPid.Value != 0 && idUctFiltro.HasValue && idUctFiltro.Value != 0)
             {
-                List<Pid> filterTipoPid = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(x => x.IdTipoPid == idTipoPid)).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
-                pids.AddRange(filterTipoPid);
+                // Combinar ambos filtros.
+                pids = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(
+                           x => x.IdTipoPid == idTipoPid && x.PidUct.Any(y => y.IdUct == idUctFiltro) && x.FechaBaja == null))
+                       .OrderByDescending(x => x.FechaAlta).ToList();
             }
-            if (idUctFiltro != null && idUctFiltro != 0)
+            else
             {
-                List<Pid> filterPidUct = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(x => x.PidUct.Any(y => y.IdUct == idUctFiltro))).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
-                pids.AddRange(filterPidUct);
+                // Filtra solo por idTipoPid.
+                if (idTipoPid.HasValue && idTipoPid.Value != 0)
+                {
+                    pids = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(
+                               x => x.IdTipoPid == idTipoPid && x.FechaBaja == null))
+                           .OrderByDescending(x => x.FechaAlta).ToList();
+                }
+                // Filtra solo por idUctFiltro.
+                else if (idUctFiltro.HasValue && idUctFiltro.Value != 0)
+                {
+                    pids = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(
+                               x => x.PidUct.Any(y => y.IdUct == idUctFiltro) && x.FechaBaja == null))
+                           .OrderByDescending(x => x.FechaAlta).ToList();
+                }
+                // Si no viene ningun filtro entonces traigo todos los pids.
+                else
+                {
+                    pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations())
+                           .Where(x => x.FechaBaja == null).OrderByDescending(x => x.FechaAlta).ToList();
+                }
             }
 
-            if(idTipoPid == 0 && idUctFiltro == 0)
-            {
-                pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
-            }
-
-
+            // Proceso para mapear Pid a PIDDTO.
             foreach (Pid pid in pids)
             {
                 int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
@@ -219,10 +234,7 @@ namespace BussinessLogic.Services
                 pidsDTO.Add(pidDTO);
             }
 
-
-
             return pidsDTO;
-
         }
     }
 
