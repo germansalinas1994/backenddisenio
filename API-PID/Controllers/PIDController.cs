@@ -66,6 +66,15 @@ namespace API_PID.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("/buscarPid")]
+        public async Task<ApiResponse> BuscarPIDFilter([FromBody] FilterPID filtro)
+        {
+            IList<PIDDTO> pids = await _service.BuscarPIDFilter(filtro.tipoPid,filtro.uct);
+            ApiResponse response = new ApiResponse(new { data = pids });
+            return response;
+        }
+
         [HttpGet]
         [Route("/pid/{id}")]
         public async Task<ApiResponse> GetPID(int id)
@@ -112,3 +121,8 @@ namespace API_PID.Controllers
     }
 }
 
+public class FilterPID
+{
+    public int? tipoPid { get; set; }
+    public int? uct { get; set;}
+}
