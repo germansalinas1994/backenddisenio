@@ -109,7 +109,7 @@ namespace BussinessLogic.Services
 
                     pidbase.FechaDesde = DateTime.ParseExact(pid.fechaDesde, "dd/MM/yyyy", null);
                     pidbase.FechaHasta = DateTime.ParseExact(pid.fechaHasta, "dd/MM/yyyy", null);
-                    
+
                     // pidbase.FechaDesde = pid.FechaDesde.Value;
                     // pidbase.FechaHasta = pid.FechaHasta.Value;
                     pidbase.FechaActualizacion = DateTime.Now;
@@ -184,6 +184,45 @@ namespace BussinessLogic.Services
             IList<Universidad> universidades = await _unitOfWork.GenericRepository<Universidad>().GetAll();
             IList<UniversidadDTO> universidadesDTO = universidades.Adapt<IList<UniversidadDTO>>();
             return universidadesDTO;
+        }
+
+        public async Task<IList<PIDDTO>> BuscarPIDFilter(int? idTipoPid, int? idUctFiltro)
+        {
+
+            List<Pid> pids = new List<Pid>();
+            IList<PIDDTO> pidsDTO = new List<PIDDTO>();
+
+            if (idTipoPid != null && idTipoPid != 0)
+            {
+                List<Pid> filterTipoPid = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(x => x.IdTipoPid == idTipoPid)).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
+                pids.AddRange(filterTipoPid);
+            }
+            if (idUctFiltro != null && idUctFiltro != 0)
+            {
+                List<Pid> filterPidUct = (await _unitOfWork.GenericRepository<Pid>().GetByCriteriaIncludingRelations(x => x.PidUct.Any(y => y.IdUct == idUctFiltro))).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
+                pids.AddRange(filterPidUct);
+            }
+
+            if(idTipoPid == 0 && idUctFiltro == 0)
+            {
+                pids = (await _unitOfWork.GenericRepository<Pid>().GetAllIncludingRelations()).Where(x => x.FechaBaja == null).ToList().OrderByDescending(x => x.FechaAlta).ToList();
+            }
+
+
+            foreach (Pid pid in pids)
+            {
+                int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdPid)).FirstOrDefault().IdUct.Value;
+                Uct uct = await _unitOfWork.GenericRepository<Uct>().GetById(idUct);
+                UCTDTO uctDTO = uct.Adapt<UCTDTO>();
+                PIDDTO pidDTO = pid.Adapt<PIDDTO>();
+                pidDTO.Uct = uctDTO;
+                pidsDTO.Add(pidDTO);
+            }
+
+
+
+            return pidsDTO;
+
         }
     }
 
