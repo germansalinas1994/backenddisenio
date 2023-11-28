@@ -3,7 +3,7 @@ using DataAccess.Entities;
 
 namespace BussinessLogic.DTO
 {
-    public class INICIATIVADTO
+    public class IniciativaDTO
     {
         public int? IdIniciativaInvestigacion { get; set; } //CAMBIE ESTE
 
