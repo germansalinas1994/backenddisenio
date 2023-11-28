@@ -51,9 +51,23 @@ namespace API_PID.Controllers
         [Route("/iniciativa")]
         public async Task<ApiResponse> EditarPID([FromBody] RequestIniciativaDTO pid)
         {
-            await _service.EditarPID(pid);
-            ApiResponse response = new ApiResponse("La Iniciativa de Investigación se modificó exitosamente");
-            return response;
+            try
+            {
+                if (pid.idIniciativaInvestigacion == 0)
+                {
+                    throw new Exception("No se ha encontrado la Iniciativa de Investigación");
+                }
+                await _service.EditarPID(pid);
+                ApiResponse response = new ApiResponse("La Iniciativa de Investigación se modificó exitosamente");
+                return response;
+            }
+            catch (Exception e)
+            {
+                ApiResponse response = new ApiResponse(e.Message);
+                return response;
+            }
+
+
         }
 
         [HttpGet]

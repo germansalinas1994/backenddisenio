@@ -3,7 +3,7 @@ using DataAccess.Entities;
 
 namespace BussinessLogic.DTO
 {
-   public class RequestIniciativaDTO
+    public class RequestIniciativaDTO
     {
 
         public int idIniciativaInvestigacion { get; set; }
@@ -20,6 +20,8 @@ namespace BussinessLogic.DTO
         public int uct { get; set; }
 
         public string director { get; set; }
+
+        public string? Programa { get; set; } // SE AGREGA ESTE
 
 
 
