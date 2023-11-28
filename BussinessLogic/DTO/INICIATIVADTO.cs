@@ -13,9 +13,9 @@ namespace BussinessLogic.DTO
 
         public DateTime? FechaHasta { get; set; }
 
-        public int? Universidad { get; set; }
+        public int? IdUniversidad { get; set; }
 
-        public int? TipoPid { get; set; }
+        public int? IdTipoPid { get; set; }
 
         public string? Director { get; set; }
 
@@ -25,6 +25,9 @@ namespace BussinessLogic.DTO
 
         public UCTDTO Uct { get; set; }
 
+        public UniversidadDTO Universidad { get; set; }
+
+        public TipoPidDTO TipoPid { get; set; }
 
     }
 }
