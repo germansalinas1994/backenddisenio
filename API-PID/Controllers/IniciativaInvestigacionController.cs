@@ -53,7 +53,7 @@ namespace API_PID.Controllers
         {
             try
             {
-                if (pid.idIniciativaInvestigacion == 0)
+                if (pid.idIniciativaInvestigacion == 0 || pid.idIniciativaInvestigacion == null)
                 {
                     throw new Exception("No se ha encontrado la Iniciativa de Investigación");
                 }
