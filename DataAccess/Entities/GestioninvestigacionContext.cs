@@ -67,11 +67,11 @@ public partial class GestioninvestigacionContext : DbContext
                 .HasMaxLength(300)
                 .HasColumnName("programa");
 
-            entity.HasOne(d => d.IdTipoP).WithMany(p => p.IniciativaInvestigacion)
+            entity.HasOne(d => d.TipoPid).WithMany(p => p.IniciativaInvestigacion)
                 .HasForeignKey(d => d.IdTipoPid)
                 .HasConstraintName("id_tipoPID");
 
-            entity.HasOne(d => d.IdUniversidadNavigation).WithMany(p => p.IniciativaInvestigacion)
+            entity.HasOne(d => d.Universidad).WithMany(p => p.IniciativaInvestigacion)
                 .HasForeignKey(d => d.IdUniversidad)
                 .HasConstraintName("id_universidad");
         });
