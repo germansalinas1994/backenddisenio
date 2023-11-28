@@ -27,9 +27,9 @@ public partial class IniciativaInvestigacion
 
     public string? Programa { get; set; }
 
-    public virtual Tipopid? IdTipoP { get; set; }
+    public virtual Tipopid? TipoPid { get; set; }
 
-    public virtual Universidad? IdUniversidadNavigation { get; set; }
+    public virtual Universidad? Universidad { get; set; }
 
     public virtual ICollection<UctIniciativainvestigacion> UctIniciativainvestigacion { get; set; } = new List<UctIniciativainvestigacion>();
 }
