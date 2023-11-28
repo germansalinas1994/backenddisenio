@@ -228,7 +228,7 @@ namespace BussinessLogic.Services
             // Proceso para mapear Pid a PIDDTO.
             foreach (IniciativaInvestigacion pid in pids)
             {
-                int idUct = (await _unitOfWork.GenericRepository<PidUct>().GetByCriteria(x => x.IdPid == pid.IdIniciativaInvestigacion)).FirstOrDefault().IdUct.Value;
+                int idUct = (await _unitOfWork.GenericRepository<UctIniciativainvestigacion>().GetByCriteria(x => x.IdIniciativainvestigacion == pid.IdIniciativaInvestigacion)).FirstOrDefault().IdUct.Value;
                 Uct uct = await _unitOfWork.GenericRepository<Uct>().GetById(idUct);
                 UCTDTO uctDTO = uct.Adapt<UCTDTO>();
                 IniciativaDTO pidDTO = pid.Adapt<IniciativaDTO>();
